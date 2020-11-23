@@ -1,48 +1,48 @@
 ---
-# install tasks file for ptscotch
+# install tasks file for scotch
 
 # Installing
-- name: Creates ptscotch directories if not exists
+- name: Creates scotch directories if not exists
   file:
     path: "{{ _item }}"
     state: directory
   with_items:
-    - "{{ ptscotch_build_path }}"
-    - "{{ ptscotch_download_path }}"
-    - "{{ ptscotch_install_dir }}"
+    - "{{ scotch_build_path }}"
+    - "{{ scotch_download_path }}"
+    - "{{ scotch_install_dir }}"
   loop_control:
     loop_var: _item
 
-- name: Git checkout ptscotch
+- name: Git checkout scotch
   git:
-    repo: "{{ ptscotch_source_url }}"
-    dest: "{{ ptscotch_download_path }}"
-    version: "v{{ ptscotch_version }}"
+    repo: "{{ scotch_source_url }}"
+    dest: "{{ scotch_download_path }}"
+    version: "v{{ scotch_version }}"
 
 - name: Copy sources into build directory
   git:
-    repo: "{{ ptscotch_download_path }}"
-    dest: "{{ ptscotch_build_path }}"
-    version: "v{{ ptscotch_version }}"
+    repo: "{{ scotch_download_path }}"
+    dest: "{{ scotch_build_path }}"
+    version: "v{{ scotch_version }}"
     force: true
 
-#- name: Download ptscotch sources
+#- name: Download scotch sources
 #  get_url:
-#    url: "{{ ptscotch_source_url }}"
+#    url: "{{ scotch_source_url }}"
 #    dest: "{{ download_dir }}"
-#  register: ptscotch_source_archive
+#  register: scotch_source_archive
 #
 #- name: Unarchive file
 #  unarchive:
-#    src: "{{ ptscotch_source_archive.dest }}"
-#    dest: "{{ ptscotch_download_path }}"
+#    src: "{{ scotch_source_archive.dest }}"
+#    dest: "{{ scotch_download_path }}"
 #    remote_src: yes
-#  register: ptscotch_source_dir
+#  register: scotch_source_dir
 #
-- name: Add Makefile.inc for ptscotch
+- name: Add Makefile.inc for scotch
   template:
     src: "{{ _item  }}"
-    dest: "{{ ptscotch_build_path }}/src/Makefile.inc"
+    dest: "{{ scotch_build_path }}/src/Makefile.inc"
   loop_control:
     loop_var: _item
   with_items:
@@ -50,19 +50,19 @@
 
 - name: Replace prefix in makefile
   replace:
-    path: "{{ ptscotch_build_path }}/src/Makefile"
+    path: "{{ scotch_build_path }}/src/Makefile"
     regexp: "^prefix\\s*\\?\\=.*$"
-    replace: "prefix ?= {{ ptscotch_install_dir }}"
+    replace: "prefix ?= {{ scotch_install_dir }}"
 #    backup: yes
 
 # Installing
-- name: Install ptscotch
+- name: Install scotch
   command: " {{ _item }} "
   args:
-    chdir: "{{ ptscotch_build_path }}/src"
+    chdir: "{{ scotch_build_path }}/src"
   with_items:
-    - "{{ ptscotch_make_program }} -j {{ ptscotch_make_jobs }}"
-    - "{{ ptscotch_make_program }} install"
+    - "{{ scotch_make_program }} -j {{ scotch_make_jobs }}"
+    - "{{ scotch_make_program }} install"
   loop_control:
     loop_var: _item
 #  environment:
@@ -73,4 +73,4 @@
     state: absent
     path: "{{ item }}/"
   with_items:
-    - "{{ ptscotch_build_path }}"
+    - "{{ scotch_build_path }}"

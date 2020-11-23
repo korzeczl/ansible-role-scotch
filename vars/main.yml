@@ -1,4 +1,4 @@
 ---
-# vars file for ptscotch
+# vars file for scotch
 
-ptscotch_make_program: make
+scotch_make_program: make

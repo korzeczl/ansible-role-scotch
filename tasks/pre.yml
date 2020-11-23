@@ -1,5 +1,5 @@
 ---
-# Settings some facts for ptscotch
+# Settings some facts for scotch
 
 - name: Define required directories
   set_fact:
@@ -9,39 +9,39 @@
 
 - name: Decompose version
   set_fact:
-    ptscotch_major_version: "{{ ptscotch_version.split('.')[0] }}"
-    ptscotch_micro_version: "{{ ptscotch_version.split('.')[1] }}"
-    ptscotch_minor_version: "{{ ptscotch_version.split('.')[2] }}"
+    scotch_major_version: "{{ scotch_version.split('.')[0] }}"
+    scotch_micro_version: "{{ scotch_version.split('.')[1] }}"
+    scotch_minor_version: "{{ scotch_version.split('.')[2] }}"
 
 - name: Define download, checksum urls
   set_fact:
-    ptscotch_source_url: https://gitlab.inria.fr/scotch/scotch.git
-#    ptscotch_source_url: "https://gforge.inria.fr/frs/download.php/latestfile/298/scotch_{{ ptscotch_version }}.tar.gz"
+    scotch_source_url: https://gitlab.inria.fr/scotch/scotch.git
+#    scotch_source_url: "https://gforge.inria.fr/frs/download.php/latestfile/298/scotch_{{ scotch_version }}.tar.gz"
 
-- name: Set ptscotch paths
+- name: Set scotch paths
   set_fact:
-    ptscotch_build_path: "{{ build_dir }}/{{ role_name }}/{{ ptscotch_version }}"
-    ptscotch_download_path: "{{ download_dir }}/{{ role_name }}/{{ ptscotch_version }}"
+    scotch_build_path: "{{ build_dir }}/{{ role_name }}/{{ scotch_version }}"
+    scotch_download_path: "{{ download_dir }}/{{ role_name }}/{{ scotch_version }}"
 
-- name: Define ptscotch install directory
+- name: Define scotch install directory
   set_fact:
-    ptscotch_install_dir: "{{ ptscotch_install_dir | default( ['/opt', role_name, [ [ptscotch_version, gcc_version] | join('-gcc'), openmpi_version ]\
+    scotch_install_dir: "{{ scotch_install_dir | default( ['/opt', role_name, [ [scotch_version, gcc_version] | join('-gcc'), openmpi_version ]\
      | join('-ompi') ] | join('/') ) }}"
 
-- name: Define ptscotch src directory
+- name: Define scotch src directory
   set_fact:
-    ptscotch_src_dir: "{{ ptscotch_download_path }}/src"
+    scotch_src_dir: "{{ scotch_download_path }}/src"
 
 - name: Define number of jobs for the build process
   set_fact:
-    ptscotch_make_jobs: "{{ ptscotch_make_jobs | default(4) }}"
+    scotch_make_jobs: "{{ scotch_make_jobs | default(4) }}"
 
 - name: Define module_home variable if not previously defined
   set_fact:
     modules_home: "{{ modules_home | default( '/etc/modulefiles' ) }}"
-  when: ptscotch_module|bool
+  when: scotch_module|bool
 
-- name: Define ptscotch_module_dir variable
+- name: Define scotch_module_dir variable
   set_fact:
-    ptscotch_module_dir: "{{ modules_home }}/ptscotch/"
-  when: ptscotch_module|bool
+    scotch_module_dir: "{{ modules_home }}/scotch/"
+  when: scotch_module|bool

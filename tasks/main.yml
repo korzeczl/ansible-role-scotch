@@ -1,19 +1,19 @@
 ---
-# main tasks file for ptscotch
+# main tasks file for scotch
 
-- name: Setting ptscotch facts
+- name: Setting scotch facts
   include_tasks: pre.yml
 
 - name: Prerequisities check
   include_tasks: assert.yml
 
-- name: "Install {{ role_name | upper }} version {{ ptscotch_version }}"
+- name: "Install {{ role_name | upper }} version {{ scotch_version }}"
   include_tasks: install.yml
-  when: ptscotch_build_needed is defined
+  when: scotch_build_needed is defined
 
 - name: "Create a module for {{ role_name | upper }}"
   include_tasks: modulefile.yml
-  when: ptscotch_module|bool
+  when: scotch_module|bool
 
 - name: include info.yml
   include_tasks: info.yml

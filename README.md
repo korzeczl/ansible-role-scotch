@@ -1,10 +1,10 @@
-Ansible Role: ptscotch
+Ansible Role: scotch
 =====================
 
 [//]: <> (Comment)
 [//]: <> (A brief description of the role goes here.)
 
-Install [ptscotch](https://www.hdfgroup.org/solutions/ptscotch) on Centos 7 from sources.
+Install [scotch](https://gitlab.inria.fr/scotch/scotch) on Centos 7 from sources.
 
 _Work in progress_
 
@@ -34,14 +34,14 @@ Available variables are listed below, along with default values (see [`defaults/
 
 | Variable  |  	Default  | Comments  |
 |---|---|---|
-| `ptscotch_version`   | [1.12.0](https://support.hdfgroup.org/ftp/ptscotch/releases/) | Choose ptscotch version to install  |
-| `ptscotch_install_dir`  | /opt/HDF_Group/ptscotch/  | Directory where to install ptscotch   |
-| `ptscotch_module`  | false  | Create environment module  |
-| `ptscotch_enable_fortran`  | false  | Enable fortran ptscotch|
-| `ptscotch_verbose`  | false  | Add some outputs in stdout |
-| `ptscotch_make_program`  | make  | Define make program (e.g. make, ninja, ...). Chosen make program must exist on the system. |
-| `ptscotch_make_jobs`  | 4  | Number of jobs for the build process  |
-| `ptscotch_cmake_args`  |  auto  | Arguments to pass to `cmake`. If set, overide auto presets. |
+| `scotch_version`   | [1.12.0](https://support.hdfgroup.org/ftp/scotch/releases/) | Choose scotch version to install  |
+| `scotch_install_dir`  | /opt/HDF_Group/scotch/  | Directory where to install scotch   |
+| `scotch_module`  | false  | Create environment module  |
+| `scotch_enable_fortran`  | false  | Enable fortran scotch|
+| `scotch_verbose`  | false  | Add some outputs in stdout |
+| `scotch_make_program`  | make  | Define make program (e.g. make, ninja, ...). Chosen make program must exist on the system. |
+| `scotch_make_jobs`  | 4  | Number of jobs for the build process  |
+| `scotch_cmake_args`  |  auto  | Arguments to pass to `cmake`. If set, overide auto presets. |
                          
 Dependencies             
 ------------       
@@ -69,7 +69,7 @@ Example Playbook
     - hosts: my_server
       roles:
         - role: korzeczl.gcc
-        - role: korzeczl.ptscotch 
+        - role: korzeczl.scotch 
 
 License
 -------
@@ -86,5 +86,5 @@ or a website \(HTML is not allowed\).)
 
 This role was created in 2020 by Laurent Korzeczek.
 
-[link-license]: https://gitlab.com/ansible-roles-korzeczl/ptscotch/-/blob/master/LICENSE
-[link-galaxy]: https://galaxy.ansible.com/korzeczl/ptscotch
+[link-license]: https://gitlab.com/ansible-roles-korzeczl/scotch/-/blob/master/LICENSE
+[link-galaxy]: https://galaxy.ansible.com/korzeczl/scotch

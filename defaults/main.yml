@@ -1,7 +1,7 @@
 ---
-# defaults file for ptscotch
+# defaults file for scotch
 
-ptscotch_version: 6.1.0
-ptscotch_module: true
-ptscotch_verbose: true
-#ptscotch_enable_fortran: false
+scotch_version: 6.1.0
+scotch_module: true
+scotch_verbose: true
+#scotch_enable_fortran: false

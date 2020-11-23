@@ -1,5 +1,5 @@
 ---
-# assertion for ptscotch
+# assertion for scotch
 
 - name: Test gcc compiler is defined
   fail:
@@ -9,13 +9,13 @@
 # todo
 #- name: Check if make program has been defined
 #  fail:
-#    msg: "Please set 'ptscotch_make_program' to 'make' or 'ninja'"
-#  when: ptscotch_make_program is not defined
+#    msg: "Please set 'scotch_make_program' to 'make' or 'ninja'"
+#  when: scotch_make_program is not defined
 #
 #- name: Check make program is installed on the system
-#  command: '{{ ptscotch_make_program }}'
-#  register: ptscotch_make_program_stat
-#  failed_when: "'command not found' in ptscotch_make_program_stat.stderr"
+#  command: '{{ scotch_make_program }}'
+#  register: scotch_make_program_stat
+#  failed_when: "'command not found' in scotch_make_program_stat.stderr"
 
 - name: get the rpm or apt package facts
   package_facts:
@@ -26,29 +26,29 @@
     msg:
       - "Module for {{ role_name }} is set to True but 'environment-modules' is not installed"
       - "Please install environment-modules or deactivate {{ role_name }} module creation"
-  when: ansible_facts.packages['environment-modules'] is not defined and ptscotch_module|bool
+  when: ansible_facts.packages['environment-modules'] is not defined and scotch_module|bool
 
 - name: Check if build is needed
   block:
 #
-#    - name: Set path to requested ptscotch executable
+#    - name: Set path to requested scotch executable
 #      set_fact:
-#        _ptscotch_executable: "{{ ptscotch_install_dir }}/bin/ptscotch"
+#        _scotch_executable: "{{ scotch_install_dir }}/bin/scotch"
 #
-#    - name: Check that requested ptscotch exists
+#    - name: Check that requested scotch exists
 #      stat:
-#        path: "{{ _ptscotch_executable }}"
-#      register: stat_ptscotch
+#        path: "{{ _scotch_executable }}"
+#      register: stat_scotch
 #
 #    - name: Get gcc version
-#      command: "{{ _ptscotch_executable }} -dumpversion"
-#      register: ptscotch_gcc_version
-#      when: stat_ptscotch.stat.exists
+#      command: "{{ _scotch_executable }} -dumpversion"
+#      register: scotch_gcc_version
+#      when: stat_scotch.stat.exists
 
     - name: Check if build is needed
       set_fact:
-        ptscotch_build_needed: "True"
+        scotch_build_needed: "True"
 #      when:
-#        - "not stat_ptscotch.stat.exists or
-#          (ptscotch_gcc_version.stdout_lines is defined  and  (ptscotch_gcc_version.stdout_lines[-1] != gcc_version) | bool)"
-#      #todo: Add cmake options comparison for ptscotch source and target
+#        - "not stat_scotch.stat.exists or
+#          (scotch_gcc_version.stdout_lines is defined  and  (scotch_gcc_version.stdout_lines[-1] != gcc_version) | bool)"
+#      #todo: Add cmake options comparison for scotch source and target
