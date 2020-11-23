@@ -34,14 +34,11 @@ Available variables are listed below, along with default values (see [`defaults/
 
 | Variable  |  	Default  | Comments  |
 |---|---|---|
-| `scotch_version`   | [1.12.0](https://support.hdfgroup.org/ftp/scotch/releases/) | Choose scotch version to install  |
-| `scotch_install_dir`  | /opt/HDF_Group/scotch/  | Directory where to install scotch   |
+| `scotch_version`   | [6.1.0](https://gitlab.inria.fr/scotch/scotch) | Choose scotch version to install  |
+| `scotch_install_dir`  | /opt/scotch/  | Directory where to install scotch   |
 | `scotch_module`  | false  | Create environment module  |
-| `scotch_enable_fortran`  | false  | Enable fortran scotch|
 | `scotch_verbose`  | false  | Add some outputs in stdout |
-| `scotch_make_program`  | make  | Define make program (e.g. make, ninja, ...). Chosen make program must exist on the system. |
 | `scotch_make_jobs`  | 4  | Number of jobs for the build process  |
-| `scotch_cmake_args`  |  auto  | Arguments to pass to `cmake`. If set, overide auto presets. |
                          
 Dependencies             
 ------------       
@@ -56,10 +53,7 @@ or variables that are used from other roles.
 *Required roles:*
 
 - role: `korzeczl/gcc`
-
-*Optional roles:*
-
-- role: `korzeczl/ninja`
+- role: `korzeczl/openmpi`
 
 Example Playbook
 ----------------
@@ -69,6 +63,7 @@ Example Playbook
     - hosts: my_server
       roles:
         - role: korzeczl.gcc
+        - role: korzeczl.openmpi
         - role: korzeczl.scotch 
 
 License
