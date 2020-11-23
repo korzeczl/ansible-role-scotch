@@ -4,4 +4,3 @@
 scotch_version: 6.1.0
 scotch_module: true
 scotch_verbose: true
-#scotch_enable_fortran: false
