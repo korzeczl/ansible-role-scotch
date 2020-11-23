@@ -1,0 +1,21 @@
+---
+# modulefile for ptscotch
+
+- name: Creates ptscotch directories if not exists
+  file:
+    path: "{{ ptscotch_module_dir }}"
+    state: directory
+
+- name: Add modulefile for ptscotch
+  template:
+    src: "{{ _item  }}"
+    dest: "{{ ptscotch_module_dir }}/{{ _item  | regex_replace('module.j2', ptscotch_version ) }}"
+  loop_control:
+    loop_var: _item
+  with_items:
+    - "module.j2"
+  vars:
+    pkg_home: "{{ ptscotch_install_dir }}"
+    pkg_name: "{{ role_name }}"
+    pkg_ver: "{{ ptscotch_version }}"
+    pkg_compiler: "gcc-{{ gcc_version }}"

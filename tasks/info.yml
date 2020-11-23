@@ -1,0 +1,25 @@
+---
+# Summary
+
+- name: Write summary to install directory
+  template:
+    src: "{{ _item  }}"
+    dest: "{{ ptscotch_install_dir }}/{{ _item  | regex_replace('summary.j2', 'ansible_summary.txt' ) }}"
+  loop_control:
+    loop_var: _item
+  with_items:
+    - "summary.j2"
+  register: ptscotch_summary
+
+- name: Display summary
+  block:
+
+  - name: Get summary
+    command: "cat {{ ptscotch_summary.results[0].dest }}"
+    register: command_output
+
+  - name: Print to console
+    debug:
+      msg: "{{ command_output.stdout }}"
+
+  when: ptscotch_verbose|bool

@@ -1,0 +1,76 @@
+---
+# install tasks file for ptscotch
+
+# Installing
+- name: Creates ptscotch directories if not exists
+  file:
+    path: "{{ _item }}"
+    state: directory
+  with_items:
+    - "{{ ptscotch_build_path }}"
+    - "{{ ptscotch_download_path }}"
+    - "{{ ptscotch_install_dir }}"
+  loop_control:
+    loop_var: _item
+
+- name: Git checkout ptscotch
+  git:
+    repo: "{{ ptscotch_source_url }}"
+    dest: "{{ ptscotch_download_path }}"
+    version: "v{{ ptscotch_version }}"
+
+- name: Copy sources into build directory
+  git:
+    repo: "{{ ptscotch_download_path }}"
+    dest: "{{ ptscotch_build_path }}"
+    version: "v{{ ptscotch_version }}"
+    force: true
+
+#- name: Download ptscotch sources
+#  get_url:
+#    url: "{{ ptscotch_source_url }}"
+#    dest: "{{ download_dir }}"
+#  register: ptscotch_source_archive
+#
+#- name: Unarchive file
+#  unarchive:
+#    src: "{{ ptscotch_source_archive.dest }}"
+#    dest: "{{ ptscotch_download_path }}"
+#    remote_src: yes
+#  register: ptscotch_source_dir
+#
+- name: Add Makefile.inc for ptscotch
+  template:
+    src: "{{ _item  }}"
+    dest: "{{ ptscotch_build_path }}/src/Makefile.inc"
+  loop_control:
+    loop_var: _item
+  with_items:
+    - "Makefile.inc.j2"
+
+- name: Replace prefix in makefile
+  replace:
+    path: "{{ ptscotch_build_path }}/src/Makefile"
+    regexp: "^prefix\\s*\\?\\=.*$"
+    replace: "prefix ?= {{ ptscotch_install_dir }}"
+#    backup: yes
+
+# Installing
+- name: Install ptscotch
+  command: " {{ _item }} "
+  args:
+    chdir: "{{ ptscotch_build_path }}/src"
+  with_items:
+    - "{{ ptscotch_make_program }} -j {{ ptscotch_make_jobs }}"
+    - "{{ ptscotch_make_program }} install"
+  loop_control:
+    loop_var: _item
+#  environment:
+#    LD_LIBRARY_PATH: "{{ GCC_LD }}"
+#
+- name: Cleaning
+  file:
+    state: absent
+    path: "{{ item }}/"
+  with_items:
+    - "{{ ptscotch_build_path }}"

@@ -1,0 +1,54 @@
+---
+# assertion for ptscotch
+
+- name: Test gcc compiler is defined
+  fail:
+    msg: "Please set 'gcc_version'"
+  when: gcc_version is not defined
+
+# todo
+#- name: Check if make program has been defined
+#  fail:
+#    msg: "Please set 'ptscotch_make_program' to 'make' or 'ninja'"
+#  when: ptscotch_make_program is not defined
+#
+#- name: Check make program is installed on the system
+#  command: '{{ ptscotch_make_program }}'
+#  register: ptscotch_make_program_stat
+#  failed_when: "'command not found' in ptscotch_make_program_stat.stderr"
+
+- name: get the rpm or apt package facts
+  package_facts:
+    manager: "auto"
+
+- name: Check if environment-modules is installed on the system
+  fail:
+    msg:
+      - "Module for {{ role_name }} is set to True but 'environment-modules' is not installed"
+      - "Please install environment-modules or deactivate {{ role_name }} module creation"
+  when: ansible_facts.packages['environment-modules'] is not defined and ptscotch_module|bool
+
+- name: Check if build is needed
+  block:
+#
+#    - name: Set path to requested ptscotch executable
+#      set_fact:
+#        _ptscotch_executable: "{{ ptscotch_install_dir }}/bin/ptscotch"
+#
+#    - name: Check that requested ptscotch exists
+#      stat:
+#        path: "{{ _ptscotch_executable }}"
+#      register: stat_ptscotch
+#
+#    - name: Get gcc version
+#      command: "{{ _ptscotch_executable }} -dumpversion"
+#      register: ptscotch_gcc_version
+#      when: stat_ptscotch.stat.exists
+
+    - name: Check if build is needed
+      set_fact:
+        ptscotch_build_needed: "True"
+#      when:
+#        - "not stat_ptscotch.stat.exists or
+#          (ptscotch_gcc_version.stdout_lines is defined  and  (ptscotch_gcc_version.stdout_lines[-1] != gcc_version) | bool)"
+#      #todo: Add cmake options comparison for ptscotch source and target

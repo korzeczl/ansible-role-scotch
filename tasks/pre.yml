@@ -1,0 +1,47 @@
+---
+# Settings some facts for ptscotch
+
+- name: Define required directories
+  set_fact:
+    build_dir: "{{ build_dir | default( '/tmp/build' ) }}"
+    download_dir: "{{ download_dir | default( '/tmp/download' ) }}"
+    modules_home: "{{ modules_home | default( '/etc/modulefiles' ) }}"
+
+- name: Decompose version
+  set_fact:
+    ptscotch_major_version: "{{ ptscotch_version.split('.')[0] }}"
+    ptscotch_micro_version: "{{ ptscotch_version.split('.')[1] }}"
+    ptscotch_minor_version: "{{ ptscotch_version.split('.')[2] }}"
+
+- name: Define download, checksum urls
+  set_fact:
+    ptscotch_source_url: https://gitlab.inria.fr/scotch/scotch.git
+#    ptscotch_source_url: "https://gforge.inria.fr/frs/download.php/latestfile/298/scotch_{{ ptscotch_version }}.tar.gz"
+
+- name: Set ptscotch paths
+  set_fact:
+    ptscotch_build_path: "{{ build_dir }}/{{ role_name }}/{{ ptscotch_version }}"
+    ptscotch_download_path: "{{ download_dir }}/{{ role_name }}/{{ ptscotch_version }}"
+
+- name: Define ptscotch install directory
+  set_fact:
+    ptscotch_install_dir: "{{ ptscotch_install_dir | default( ['/opt', role_name, [ [ptscotch_version, gcc_version] | join('-gcc'), openmpi_version ]\
+     | join('-ompi') ] | join('/') ) }}"
+
+- name: Define ptscotch src directory
+  set_fact:
+    ptscotch_src_dir: "{{ ptscotch_download_path }}/src"
+
+- name: Define number of jobs for the build process
+  set_fact:
+    ptscotch_make_jobs: "{{ ptscotch_make_jobs | default(4) }}"
+
+- name: Define module_home variable if not previously defined
+  set_fact:
+    modules_home: "{{ modules_home | default( '/etc/modulefiles' ) }}"
+  when: ptscotch_module|bool
+
+- name: Define ptscotch_module_dir variable
+  set_fact:
+    ptscotch_module_dir: "{{ modules_home }}/ptscotch/"
+  when: ptscotch_module|bool
